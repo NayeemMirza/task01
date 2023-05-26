@@ -1,0 +1,192 @@
+<div class="row my-5">
+    <div class="col-sm-12">
+        <div class="card">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Full Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>{{firstName()}}</td>
+                        <td>{{LasttName()}}</td>
+                        <td>{{fullName()}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">&nbsp;</th>
+                        <td>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="fName" [value]="firstName()" #fName
+                                    placeholder="Change First Name">
+                                <button class="btn btn-primary" (click)="updatefirstName(fName.value)">Update Frist
+                                    Name</button>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="lName" [value]="LasttName()" #lName
+                                    placeholder="Change Last Name">
+                                <button class="btn btn-primary" (click)="updateLasttName(lName.value)">Update Last
+                                    Name</button>
+                            </div>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row my-5">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-sm-2">
+                    <button class="btn btn-primary" (click)="decreaseCount()">-</button>
+                </div>
+                <div class="col-sm-2">
+                    {{count()}}
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-primary" (click)="increaseCount()">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row my-5">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Position</th>
+                                <th scope="col">Departmaent</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of employees(); let i = index">
+                                <th scope="row">{{i+1}}</th>
+                                <td>{{item.name}}</td>
+                                <td>{{item.position}}</td>
+                                <td>{{item.departmaent}}</td>
+                                <td>
+                                    <span (click)="editItem(item)"><i class="bi bi-pencil-square"></i></span>
+                                    <span (click)="removeItem(item.id)"><i class="bi bi-trash3"></i></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" [formGroup]="employeeFrom">
+                    <div class="row px-2" *ngIf="showForm">
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="Name" formControlName="name" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <select class="form-select" formControlName="position" required>
+                                <ng-container *ngFor="let position of positingLists">
+                                    <option value="{{position}}">{{position}}</option>
+                                </ng-container>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <select class="form-select" formControlName="departmaent" required>
+                                <ng-container *ngFor="let departmaent of departmaentLists">
+                                    <option value="{{departmaent}}">{{departmaent}}</option>
+                                </ng-container>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <ng-container *ngIf="isEdit; else showAddEmployee ">
+                                <button class="btn btn-primary my-2 mx-2" type="submit" (click)="updateItem()">Update
+                                    Employee</button>
+                            </ng-container>
+                            <ng-template #showAddEmployee>
+                                <button class="btn btn-primary my-2 mx-2" type="submit" (click)="addItem()"> Add
+                                    Employee</button>
+                            </ng-template>
+
+                            <button class="btn btn-secondary my-2" type="submit" (click)="cancelImp()"
+                                *ngIf="showForm">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="row">
+                <div class="col-sm-10 my-2 mx-2">
+                    <input class="form-control" [ngModel]="searchInput()" (ngModelChange)="searchUser($event)" placeholder="Search">
+                </div>
+                <div class="col-sm-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Full Name</th>
+                                <th scope="col">Gender</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Pic</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of paginatedAndFilteredUsers(); let i = index">
+                                <th scope="row">{{data.id}}</th>
+                                <td>{{data.firstName }} {{data.lastName }} </td>
+                                <td>{{data.gender }}</td>
+                                <td>{{data.email}}</td>
+                                <td>
+                                    <div class="userImg">
+                                        <img src="{{data.image}}">
+                                    </div>
+                                </td>
+                                <td>
+                                    <span (click)="editItem(data)"><i class="bi bi-pencil-square"></i></span>
+                                    <span (click)="removeItem(data.id)"><i class="bi bi-trash3"></i></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-12">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" (click)="goToPrevPage()">
+                                <span aria-hidden="true">&laquo;</span>
+                              </a>
+                        </li>
+                        <li class="page-item"><a class="page-link">{{ currentPage() }} </a></li>
+                        <li class="page-item">
+                            <a class="page-link" (click)="goToNextPage()">
+                              <span aria-hidden="true">&raquo;</span>
+                            </a>
+                          </li>
+                    </ul>  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

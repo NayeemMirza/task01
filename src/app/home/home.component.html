@@ -1,0 +1,51 @@
+<div class="row mt-5">
+    <div class="col-sm-12">
+        <p>Count</p>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="" [(ngModel)]="countNumber">
+            <button class="btn btn-outline-secondary" type="button" (click)="getCountNumber()">Count</button>
+        </div>
+    </div>
+    <div class="col-sm-12" *ngIf="isResultReady">
+        <div class="card">
+            <ul>
+                <ng-container *ngFor="let count of result | keyvalue">
+                    <li>
+                        {{count.key}}: {{count.value}}
+                    </li>
+                </ng-container>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-sm-12">
+        <p>Anagrams</p>
+        <div class="row">
+            <div class="col-sm-5">
+                <input type="text" class="form-control" placeholder="" [(ngModel)]="compareItemOne">
+            </div>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" placeholder="" [(ngModel)]="compareItemTwo">
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-primary" type="button" (click)="compareItem()">Compare</button>
+            </div>
+        </div> 
+    </div>
+    <div class="col-sm-12 mt-2" *ngIf="compareItemOne!=='' && compareItemTwo!==''">
+        <div class="card">
+            <p class="text-danger" *ngIf="lenghtError">lenght of contents are not same</p>
+            <p class="text-danger" *ngIf="contentError">Contents are not same</p>
+            <p class="text-success" *ngIf="isTure">True</p>
+            <!-- <ul>
+                <ng-container *ngFor="let count of result | keyvalue">
+                    <li>
+                        {{count.key}}: {{count.value}}
+                    </li>
+                </ng-container>
+            </ul> -->
+        </div>
+    </div>
+</div>
